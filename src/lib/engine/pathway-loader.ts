@@ -1,117 +1,126 @@
-/**
- * pathway-loader.ts
- * Central registry for all pathway JSON files.
- * To add a new pathway: one import + one array entry.
- */
-
-// ─── Type definitions ────────────────────────────────────────────────────────
-
-export interface PathwayNode {
-  id: string;
-  type: "question" | "outcome" | "branch";
-  question?: string;
-  field?: string;
-  children?: PathwayEdge[];
-  outcome?: {
-    urgency: string;
-    clinicianHeadline: string;
-    patientHeadline: string;
-    patientSummary: string;
-    verbatim: string[];
-    verbatimTitle?: string;
-    referrals?: Array<{ specialty: string; timeframe: string; note?: string }>;
-  };
-}
-
-export interface PathwayEdge {
-  condition: string;       // e.g. "< 130", ">= 130 && < 150", "female", "true"
-  next: string;            // node id
-  label?: string;          // display label for the edge
-}
+// ─── PATHWAY REGISTRY ────────────────────────────────────────────────────────
+// Add new pathways here. Each entry registers a pathway with its metadata.
+// The route file must exist at: src/routes/pathway.[id].tsx
+//
+// To add a new pathway:
+// 1. Create src/routes/pathway.[id].tsx
+// 2. Add an entry below
 
 export interface PathwayMeta {
   id: string;
-  slug: string;
   title: string;
-  description?: string;
+  shortTitle: string;
+  category: "haematology" | "hepatology" | "biochemistry" | "urology";
   icb: string;
   version: string;
-  date: string;
-  tests: string[];
+  guidelineUrl: string;
+  guidelinePageUrl: string;
+  inputs: string[];
+  status: "live" | "coming_soon" | "stub";
+  route: string;
 }
 
-export interface PathwayDocument {
-  meta: PathwayMeta;
-  rootNode: string;
-  nodes: PathwayNode[];
-}
-
-// ─── Registry ────────────────────────────────────────────────────────────────
-
-// Import your JSON pathway files here.
-// Each must match the PathwayDocument shape above.
-//
-// Example (uncomment when file exists):
-// import nclFbcAnaemia from "@/pathways/ncl/fbc-anaemia.json";
-
-// Inline fallback so the app works before JSONs are fully wired:
-const NWL_ANAEMIA_STUB: PathwayDocument = {
-  meta: {
-    id: "nwl-anaemia-v1",
-    slug: "anaemia",
-    title: "Anaemia Pathway",
-    description: "FBC/iron studies interpretation for primary care",
-    icb: "NW London ICB",
-    version: "V1",
-    date: "2020-07-09",
-    tests: ["Hb", "Ferritin", "MCV"],
+export const PATHWAY_REGISTRY: PathwayMeta[] = [
+  // ── HAEMATOLOGY ──────────────────────────────────────────────────────────
+  {
+    id: "anaemia",
+    title: "Anaemia (Iron Deficiency)",
+    shortTitle: "Anaemia",
+    category: "haematology",
+    icb: "NWL ICB",
+    version: "V1, 9 July 2020",
+    guidelineUrl: "https://www.nwlondonicb.nhs.uk/download_file/877/577",
+    guidelinePageUrl:
+      "https://www.nwlondonicb.nhs.uk/professionals/clinical-topics/haematology",
+    inputs: ["Hb (g/L)", "MCV (fL)", "Ferritin (µg/L)"],
+    status: "live",
+    route: "/pathway/anaemia",
   },
-  rootNode: "start",
-  nodes: [
-    {
-      id: "start",
-      type: "question",
-      question: "What is the patient's sex?",
-      field: "sex",
-      children: [
-        { condition: "female", next: "hb-female", label: "Female" },
-        { condition: "male", next: "hb-male", label: "Male" },
-      ],
-    },
-  ],
-};
+  {
+    id: "thrombocytopenia",
+    title: "Thrombocytopenia",
+    shortTitle: "Low platelets",
+    category: "haematology",
+    icb: "NWL ICB",
+    version: "V1, 9 July 2020",
+    guidelineUrl: "https://www.nwlondonicb.nhs.uk/download_file/865/577",
+    guidelinePageUrl:
+      "https://www.nwlondonicb.nhs.uk/professionals/clinical-topics/haematology",
+    inputs: ["Platelets (×10⁹/L)", "Duration", "Symptoms"],
+    status: "coming_soon",
+    route: "/pathway/thrombocytopenia",
+  },
+  {
+    id: "macrocytosis",
+    title: "Macrocytosis",
+    shortTitle: "Raised MCV",
+    category: "haematology",
+    icb: "NWL ICB",
+    version: "V1, 9 July 2020",
+    guidelineUrl: "https://www.nwlondonicb.nhs.uk/download_file/879/577",
+    guidelinePageUrl:
+      "https://www.nwlondonicb.nhs.uk/professionals/clinical-topics/haematology",
+    inputs: ["MCV (fL)", "B12 (ng/L)", "Folate (µg/L)", "TSH (mU/L)"],
+    status: "coming_soon",
+    route: "/pathway/macrocytosis",
+  },
+  {
+    id: "neutropenia",
+    title: "Neutropenia",
+    shortTitle: "Low neutrophils",
+    category: "haematology",
+    icb: "NWL ICB",
+    version: "V1, 9 July 2020",
+    guidelineUrl: "https://www.nwlondonicb.nhs.uk/download_file/867/577",
+    guidelinePageUrl:
+      "https://www.nwlondonicb.nhs.uk/professionals/clinical-topics/haematology",
+    inputs: ["Neutrophils (×10⁹/L)", "WBC (×10⁹/L)"],
+    status: "coming_soon",
+    route: "/pathway/neutropenia",
+  },
+  {
+    id: "b12",
+    title: "B12 Deficiency",
+    shortTitle: "B12 deficiency",
+    category: "haematology",
+    icb: "NWL ICB",
+    version: "V1, 9 July 2020",
+    guidelineUrl: "https://www.nwlondonicb.nhs.uk/download_file/880/577",
+    guidelinePageUrl:
+      "https://www.nwlondonicb.nhs.uk/professionals/clinical-topics/haematology",
+    inputs: ["Serum B12 (ng/L)", "Folate (µg/L)", "Intrinsic factor Ab"],
+    status: "coming_soon",
+    route: "/pathway/b12",
+  },
 
-// ─── Add new pathway JSONs here ───────────────────────────────────────────────
-
-const PATHWAY_REGISTRY: PathwayDocument[] = [
-  NWL_ANAEMIA_STUB,
-  // nclFbcAnaemia,       ← uncomment once JSON is added
-  // nclThrombocytopenia,
-  // nclLft,
-  // nclTft,
-  // nclMacrocytosis,
+  // ── HEPATOLOGY ───────────────────────────────────────────────────────────
+  {
+    id: "lft",
+    title: "Abnormal Liver Function Tests",
+    shortTitle: "Abnormal LFTs",
+    category: "hepatology",
+    icb: "NCL ICB",
+    version: "BSG 2018 (Newsome et al., Gut)",
+    guidelineUrl:
+      "https://gps.northcentrallondon.icb.nhs.uk/cdn/serve/pathway-downloads/1459255901-0ea32ea4dac64bd6da48e592ddddc42f.pdf",
+    guidelinePageUrl:
+      "https://gps.northcentrallondon.icb.nhs.uk/topics/hepatology",
+    inputs: ["ALT", "AST", "ALP", "GGT", "Bilirubin", "Albumin"],
+    status: "live",
+    route: "/pathway/lft",
+  },
 ];
 
-// ─── Accessor functions ───────────────────────────────────────────────────────
-
-/** Get a pathway by its unique ID */
-export function getPathwayById(id: string): PathwayDocument | undefined {
-  return PATHWAY_REGISTRY.find(p => p.meta.id === id);
+export function getPathway(id: string): PathwayMeta | undefined {
+  return PATHWAY_REGISTRY.find((p) => p.id === id);
 }
 
-/** Get a pathway by its URL slug */
-export function getPathwayBySlug(slug: string): PathwayDocument | undefined {
-  return PATHWAY_REGISTRY.find(p => p.meta.slug === slug);
+export function getLivePathways(): PathwayMeta[] {
+  return PATHWAY_REGISTRY.filter((p) => p.status === "live");
 }
 
-/** Get all pathways that test a given field (e.g. "Hb") */
-export function getTriggeredPathways(field: string): PathwayDocument[] {
-  return PATHWAY_REGISTRY.filter(p =>
-    p.meta.tests.some(t => t.toLowerCase() === field.toLowerCase())
-  );
-}
-
-/** Get all registered pathways */
-export function getAllPathways(): PathwayDocument[] {
-  return [...PATHWAY_REGISTRY];
+export function getPathwaysByCategory(
+  category: PathwayMeta["category"]
+): PathwayMeta[] {
+  return PATHWAY_REGISTRY.filter((p) => p.category === category);
 }
