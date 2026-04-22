@@ -175,7 +175,7 @@ function HomePage() {
               <p className="mt-5 text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-[52ch]">
                 {mode === "patient"
                   ? "Enter your blood test results. Get the exact next steps your NHS guideline recommends — in plain English."
-                  : "Interactive decision engines built directly from NHS ICB guidelines. Enter results, get guideline-exact recommendations. No PDFs, no guesswork."}
+                  : "Interactive decision engines built directly from NHS guidelines. Enter results and get guideline-exact recommendations. Remove the guesswork."}
               </p>
             </div>
 
@@ -206,7 +206,7 @@ function HomePage() {
             >
               <span className="flex items-center gap-1.5">
                 <span className="text-primary font-bold">✓</span>
-                Verbatim NHS guideline text — never paraphrased
+                Structured directly from published NHS and clinical pathways
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="text-primary font-bold">✓</span>
@@ -214,7 +214,7 @@ function HomePage() {
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="text-primary font-bold">✓</span>
-                Free to use
+                Interactive and intelligent design 
               </span>
             </div>
           </div>
