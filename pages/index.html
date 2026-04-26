@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ResultDoctor Demo</title>
+    <meta
+      name="description"
+      content="ResultDoctor demo site showing the homepage, pathway catalogue, and live anaemia and LFT calculator views."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <p class="eyebrow">ResultDoctor Demo</p>
+        <h1>Free public preview for external viewing</h1>
+        <p class="lede">
+          This GitHub Pages site is a shareable demo of the current ResultDoctor build.
+          It shows the homepage, pathway catalogue, and the two live pathway pages.
+        </p>
+        <div class="actions">
+          <a href="https://github.com/drlizlondon/resultdoctor" target="_blank" rel="noreferrer">View repository</a>
+          <a href="https://gps.northcentrallondon.icb.nhs.uk/clinical-pathways/abnormal-fbc-results-1" target="_blank" rel="noreferrer">Anaemia source</a>
+          <a href="https://gps.northcentrallondon.icb.nhs.uk/clinical-pathways/ncl-adult-abnormal-liver-function-tests-primary-care-clinical-pathway" target="_blank" rel="noreferrer">LFT source</a>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="card wide">
+          <div class="copy">
+            <p class="label">Homepage</p>
+            <h2>Patient and clinician entry point</h2>
+            <p>
+              The homepage now pushes users into a simple pathway flow:
+              explore pathways, search by test name, or open the live pathway tools.
+            </p>
+          </div>
+          <img src="./assets/homepage-dev.png" alt="ResultDoctor homepage screenshot" />
+        </section>
+
+        <section class="card">
+          <div class="copy">
+            <p class="label">Explore Pathways</p>
+            <h2>Search or open a pathway directly</h2>
+            <p>
+              The catalogue shows live pathways and in-development pathways, with search by
+              pathway name, test name, and plain-language description.
+            </p>
+          </div>
+          <img src="./assets/pathways-dev.png" alt="Pathway catalogue screenshot" />
+        </section>
+
+        <section class="card">
+          <div class="copy">
+            <p class="label">Live LFT Pathway</p>
+            <h2>Possible picture, management, follow-up</h2>
+            <p>
+              The LFT pathway is structured around result entry, likely picture,
+              management plan, and further tests or follow-up.
+            </p>
+          </div>
+          <img src="./assets/lft-dev.png" alt="LFT pathway screenshot" />
+        </section>
+
+        <section class="card">
+          <div class="copy">
+            <p class="label">Live Anaemia Pathway</p>
+            <h2>Guideline-driven anaemia workflow</h2>
+            <p>
+              The anaemia pathway mirrors the same MVP output structure:
+              result status, possible diagnosis or picture, management plan, and follow-up.
+            </p>
+          </div>
+          <img src="./assets/anaemia-dev.png" alt="Anaemia pathway screenshot" />
+        </section>
+
+        <section class="card wide note">
+          <div class="copy">
+            <p class="label">Scope note</p>
+            <h2>What this public preview is</h2>
+            <p>
+              This is a free static demo for external viewing on GitHub Pages.
+              It is designed to show the current product clearly to collaborators, friends, and investors.
+            </p>
+            <p>
+              The working source code for the live calculators remains in the main repository and can be
+              developed independently of this demo page.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
