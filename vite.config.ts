@@ -6,4 +6,39 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig();
+const isGitHubPagesBuild = process.env.GITHUB_PAGES === "true";
+const githubPagesBase = "/resultdoctor/";
+
+export default defineConfig({
+  cloudflare: isGitHubPagesBuild ? false : undefined,
+  vite: {
+    ...(isGitHubPagesBuild
+      ? {
+          base: githubPagesBase,
+          preview: {
+            host: "127.0.0.1",
+          },
+        }
+      : {}),
+  },
+  tanstackStart: isGitHubPagesBuild
+    ? {
+        router: {
+          basepath: githubPagesBase,
+        },
+        spa: {
+          enabled: true,
+        },
+        prerender: {
+          enabled: true,
+        },
+        pages: [
+          { path: "/" },
+          { path: "/about" },
+          { path: "/pathways" },
+          { path: "/pathway/anaemia" },
+          { path: "/pathway/lft" },
+        ],
+      }
+    : undefined,
+});
